@@ -89,6 +89,7 @@ for init_value in [-10, 0, 10]:
     for i, gamma in enumerate(gammas):
         v_error, v = bellman_v(R,P,policy,init_value,gamma)
         r = axs[0][i].imshow(v.reshape(3,3), interpolation='nearest')
+        plt.colorbar(r, ax=axs[0][i]) 
         if v_error[len(v_error)-1] == 0:
             v_error[len(v_error)-1] = 0.00001
         axs[1][i].plot(np.arange(len(v_error)), np.log(v_error))
@@ -99,7 +100,6 @@ for init_value in [-10, 0, 10]:
         axs[1][i].set_title(f'$\gamma$ = {gamma}, log bellman error for v(s)')
         axs[1][i].set_xlabel("time-step")
         axs[1][i].set_ylabel("log of total absolute Bellman error")
-    plt.colorbar(r, ax=axs[0].ravel().tolist()) 
 
     fig, axs = plt.subplots(n_actions + 1, len(gammas))
     fig.suptitle(f"$Q_0$: {init_value}")
@@ -107,9 +107,11 @@ for init_value in [-10, 0, 10]:
 
     for i, gamma in enumerate(gammas):
         q_error, q = bellman_q(R,P,policy,init_value,gamma)
+        print(q)
         for a in range(n_actions):
             r = axs[a][i].imshow(q[:,a].reshape(3,3), interpolation='nearest')
             axs[a][i].set_ylabel(f'$action$ = {a}',rotation='horizontal')
+            plt.colorbar(r, ax=axs[a][i]) 
         if q_error[len(q_error)-1] == 0:
             q_error[len(q_error)-1] = 0.00001
         axs[-1][i].plot(np.arange(len(q_error)), np.log(q_error))
@@ -117,7 +119,6 @@ for init_value in [-10, 0, 10]:
         axs[-1][i].set_title(f'$\gamma$ = {gamma}, log bellman error for Q(s,a)')
         axs[-1][i].set_xlabel("time-step")
         axs[-1][i].set_ylabel("log of total absolute Bellman error")
-    plt.colorbar(r, ax=axs[: n_actions].ravel().tolist()) 
 
     plt.show()
 # v_error, v= bellman_v(R,P,policy,10, 0.99)
