@@ -163,27 +163,26 @@ for i, init_value in enumerate([-100, -10, -5, 0, 5, 10, 100]):
     pi, tot_iter, be = value_iteration(init_value,0.99)
     tot_iter_table[0, i] = np.log(tot_iter)
     assert np.allclose(pi, pi_opt)
-    axs[0][i].plot(np.arange(tot_iter),be)
+    axs[0][i].plot(np.arange(tot_iter),np.log(be))
 
     pi, tot_iter, be = policy_iteration(policy_random,init_value,0.99)
     tot_iter_table[1, i] = np.log(tot_iter)
     assert np.allclose(pi, pi_opt)
-    axs[1][i].plot(np.arange(tot_iter),be)
+    axs[1][i].plot(np.arange(tot_iter),np.log(be))
 
     pi, tot_iter, be = generalized_policy_iteration(policy_random,init_value,0.99)
     tot_iter_table[2, i] = np.log(tot_iter)
     assert np.allclose(pi, pi_opt)
-    axs[2][i].plot(np.arange(tot_iter),be)
+    axs[2][i].plot(np.arange(tot_iter),np.log(be))
 
     if i == 0:
-        axs[0][i].set_ylabel("Bellam error for VI")
-        axs[1][i].set_ylabel("Bellam error for PI")
-        axs[2][i].set_ylabel("Bellam error for GPI")
+        axs[0][i].set_ylabel("log Bellam error for VI")
+        axs[1][i].set_ylabel("log Bellam error for PI")
+        axs[2][i].set_ylabel("log Bellam error for GPI")
 
     if i == 3:
         axs[2][i].set_xlabel("policy evaluation iteration")
 plt.show()
 
-print(tot_iter_table)
 print(tot_iter_table.mean(-1))
 print(tot_iter_table.std(-1))
